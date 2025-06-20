@@ -11,11 +11,8 @@ const PORT = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-    res.send('LinkedIn Post Generator API is running!');
-});
 
-app.get('/health', (req, res) => {
+app.get('/', (req, res) => {
     res.json({ status: 'ok', message: 'API is healthy!' });
 });
 

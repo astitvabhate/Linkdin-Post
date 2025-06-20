@@ -53,6 +53,7 @@ export default function LinkdinPost() {
         <States />
 
         {/* Main Generator */}
+        <div className="max-w-6xl mx-auto">
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
           <div className="bg-gradient-to-l from-[#00B4DB] to-[#0083B0] p-8 text-white">
             <div className="flex items-center gap-3 mb-4">
@@ -61,7 +62,6 @@ export default function LinkdinPost() {
             </div>
             <p className="text-blue-100">Transform your ideas into engaging LinkedIn content in seconds</p>
           </div>
-
           <div className="p-8 space-y-6">
             {/* Input Section */}
             <div className="space-y-4">
@@ -134,7 +134,7 @@ export default function LinkdinPost() {
             {/* Generate Button  */}
             <button
               onClick={handleGenerate}
-              disabled={!prompt.trim() || isGenerating}
+              disabled={!prompt.trim() || !language || !length || !tone || isGenerating}
               className="w-full bg-gradient-to-l from-[#00B4DB] to-[#0083B0] text-white py-4 px-8 rounded-2xl font-bold text-lg hover:from-[#00B4DB] hover:to-[#0083B0] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-3 cursor-pointer"
             >
               {isGenerating ? (
@@ -203,6 +203,7 @@ export default function LinkdinPost() {
               </div>
             )}
           </div>
+        </div>
         </div>
         <Footer />
       </div>

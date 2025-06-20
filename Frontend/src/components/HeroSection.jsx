@@ -6,10 +6,11 @@ const HeroSection = () => {
 <>
     <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#0083B0] text-white px-4 py-2 rounded-full text-sm font-medium mb-4 animate-bounce">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#85415F] to-[#94BBE9] text-white px-4 py-2 rounded-full text-sm font-medium mb-4 animate-bounce">
             <Sparkles className="w-4 h-4" />
             AI-Powered Content Creation
           </div>
+          <img src="/logo.png" alt="logo" className='w-28 h-30 mx-auto opacity-50 hover:opacity-100 transition-opacity duration-300' />
           <h1 className="text-5xl font-bold bg-gradient-to-l from-[#00B4DB] to-[#0083B0] bg-clip-text text-transparent mb-4">
             LinkedIn Post Generator
           </h1>

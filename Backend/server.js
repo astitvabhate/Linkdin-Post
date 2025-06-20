@@ -2,7 +2,8 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const axios = require('axios'); // will be used for GenAI API later
+const axios = require('axios');
+require('dotenv').config();
 
 const app = express();
 const PORT = 5000;
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
     res.send('LinkedIn Post Generator API is running!');
 });
+
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', message: 'API is healthy!' });
 });
@@ -22,7 +24,7 @@ app.post('/generate', async (req, res) => {
   if (!prompt || !language || !length || !tone) {
     return res.status(400).json({ error: 'All fields are required.' });
   }
-  console.log('Prompt received:', prompt, language, length, tone);
+  // console.log('Prompt received:', prompt, language, length, tone);
 
   const instruction = `Generate a ${length} LinkedIn post in ${language} about: ${prompt} with a ${tone} tone.`;
 
@@ -30,7 +32,7 @@ app.post('/generate', async (req, res) => {
     const response = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
-        model: 'mistralai/devstral-small:free',
+        model: 'deepseek/deepseek-r1-0528:free',
         messages: [
           {
             role: 'system',
@@ -44,7 +46,7 @@ app.post('/generate', async (req, res) => {
       },
       {
         headers: {
-          'Authorization': 'Bearer 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',
+          'Authorization': `Bearer ${process.env.DEEPSEEK_API}`,
           'Content-Type': 'application/json',
           'HTTP-Referer': 'http://localhost:5173', 
           'X-Title': 'LinkedIn Post Generator',     
@@ -56,6 +58,7 @@ app.post('/generate', async (req, res) => {
     res.json({ generated });
 
   } catch (err) {
+
     console.error('🔥 OpenRouter Error:', err.response?.data || err.message);
     res.status(500).json({ generated: '❌ AI generation failed.' });
   }

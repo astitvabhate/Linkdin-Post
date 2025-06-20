@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Send, Copy, Sparkles, Users, TrendingUp, MessageCircle, Lightbulb } from 'lucide-react';
 import Footer from '../components/Footer';
+import States from '../components/states';
+import HeroSection from '../components/HeroSection';
 
-export default function CreativeLinkedInGenerator() {
+export default function LinkdinPost() {
   const [prompt, setPrompt] = useState('');
   const [language, setLanguage] = useState('');
   const [length, setLength] = useState('');
@@ -40,45 +42,15 @@ export default function CreativeLinkedInGenerator() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const stats = [
-    { icon: Users, label: "10M+ Posts", value: "Generated" },
-    { icon: TrendingUp, label: "85% Increase", value: "in Engagement" },
-    { icon: MessageCircle, label: "50K+ Users", value: "Trust Us" }
-  ];
-
+ 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
       {/* Hero Section */}
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#0083B0] text-white px-4 py-2 rounded-full text-sm font-medium mb-4 animate-bounce">
-            <Sparkles className="w-4 h-4" />
-            AI-Powered Content Creation
-          </div>
-          <h1 className="text-5xl font-bold bg-gradient-to-l from-[#00B4DB] to-[#0083B0] bg-clip-text text-transparent mb-4">
-            LinkedIn Post Generator
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Create engaging, professional LinkedIn posts that drive conversations and boost your professional presence
-          </p>
-        </div>
+      <HeroSection/>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {stats.map((stat, index) => (
-            <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="flex items-center gap-4">
-                <div className="bg-gradient-to-l from-[#00B4DB] to-[#0083B0] p-3 rounded-xl">
-                  <stat.icon className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
-                  <div className="text-gray-600">{stat.label}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <States />
 
         {/* Main Generator */}
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
@@ -234,6 +206,8 @@ export default function CreativeLinkedInGenerator() {
         </div>
         <Footer />
       </div>
-    </div>
+    </>
   );
 }
+
+ 

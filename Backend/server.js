@@ -16,6 +16,71 @@ app.get('/', (req, res) => {
     res.json({ status: 'ok', message: 'API is healthy!' });
 });
 
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // Configure storage as needed
+
+app.post('/generate-insta-caption', upload.single('image'), async (req, res) => {
+  try {
+    const { file } = req;
+    const { prompt, language, length, tone } = req.body;
+
+    if (!file && !prompt) {
+      return res.status(400).json({ error: 'Either an image or text prompt is required.' });
+    }
+
+    // If image is uploaded, analyze it (you'll need to implement this)
+    let imageDescription = '';
+    if (file) {
+      imageDescription = await analyzeImage(file.path); // Implement this function
+    }
+
+    const finalPrompt = imageDescription 
+      ? `Generate a ${length} Instagram caption in ${language} about: ${imageDescription}. Also consider: ${prompt}. Use a ${tone} tone.`
+      : `Generate a ${length} Instagram caption in ${language} about: ${prompt} with a ${tone} tone.`;
+
+    const response = await axios.post(
+      'https://openrouter.ai/api/v1/chat/completions',
+      {
+        model: 'meta-llama/llama-4-scout-17b-16e-instruct:free',
+        messages: [
+          {
+            role: 'system',
+            content: "Generate Instagram captions following these exact rules: 1) Create only the caption text - no intros or explanations 2) Length: short= max 3-4 words and 4-5 diffrent suggestion, medium = max 1-2 sentences and 3-4 diffrent suggestion, long= min 3-5 sentences and 2-3 diffrent suggestion 3) can Include 1-3 relevant emojis within the text 4) Add 1-2 hashtags at the end 5) Match the requested tone exactly 6) Use natural, conversational language 7) If input image description is unclear, respond only with: 'Please provide a clearer description for an Instagram Image.' 8) Never use markdown or special formatting. 9) caption shoud be strictly related to the image description. "
+          },
+          {
+            role: 'user',
+            content: finalPrompt,
+          },
+        ],
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${process.env.META_API}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'http://localhost:5173',
+          'X-Title': 'Instagram Caption Generator',
+        },
+      }
+    );
+
+    const generated = response.data.choices[0].message.content;
+    res.json({ generated });
+
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ error: 'Failed to generate caption.' });
+  }
+});
+
+// Helper function to analyze image (you'll need to implement this properly)
+async function analyzeImage(imagePath) {
+  // This is a placeholder - implement actual image analysis
+  // You might use OpenAI's vision API, Google Vision, etc.
+  return "an image containing various elements";
+}
+
+
+
 app.post('/generate', async (req, res) => {
   const { prompt, language, length, tone } = req.body;
   if (!prompt || !language || !length || !tone) {

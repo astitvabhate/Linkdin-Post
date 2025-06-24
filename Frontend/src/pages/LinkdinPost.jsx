@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Send, Copy, Sparkles, Users, TrendingUp, MessageCircle, Lightbulb } from 'lucide-react';
 import Footer from '../components/Footer';
 import States from '../components/states';
-import HeroSection from '../components/HeroSection';
+import HeroSection from '../components/LinkedinHeroSection';
 
 export default function LinkdinPost() {
   const [prompt, setPrompt] = useState('');
@@ -32,9 +32,13 @@ export default function LinkdinPost() {
     }
   };
 
-  const handleClear = ()=>{
-    window.location.reload(true);
-  }
+    const handleClear = () => {
+    setPrompt('');
+    setLanguage('');
+    setLength('');
+    setTone('');
+    setOutput('');
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(output);
@@ -145,7 +149,7 @@ export default function LinkdinPost() {
               ) : (
                 <>
                   <Send className="w-5 h-5" />
-                  Re-Generate LinkedIn Post
+                  Generate LinkedIn Post
                 </>
               )}
             </button>
